@@ -210,7 +210,7 @@
                                         <aggregate>true</aggregate>
                                         <format>xml</format>
                                         <rulesets>
-                                            <ruleset>/pmd-rules.xml</rulesets>
+                                            <ruleset>/pmd-rules.xml</ruleset>
                                         </rulesets>
                                         <minimumTokens>20</minimumTokens>
                                         <ignoreIdentifiers>true</ignoreIdentifiers>
@@ -376,4 +376,3 @@
         </profile>
     </profiles>
 </project>
-
