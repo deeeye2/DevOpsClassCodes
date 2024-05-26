@@ -136,6 +136,7 @@
     </dependencies>
 
     <build>
+        <finalName>addressbook</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -187,7 +188,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>addressbook</finalName>
     </build>
 
     <reporting>
@@ -457,3 +457,4 @@
         </profile>
     </profiles>
 </project>
+
