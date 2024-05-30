@@ -25,10 +25,10 @@
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-           <repository>
-             <id>codehaus</id>
-             <url>http://repository.codehaus.org</url>
-           </repository>
+        <repository>
+            <id>codehaus</id>
+            <url>http://repository.codehaus.org</url>
+        </repository>
         <repository>
             <id>vaadin-snapshots</id>
             <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
@@ -53,7 +53,6 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-   
 
     <dependencies>
         <dependency>
@@ -462,4 +461,3 @@
         </profile>
     </profiles>
 </project>
-
