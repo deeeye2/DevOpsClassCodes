@@ -1,0 +1,76 @@
+pipeline {
+    agent {
+        name "host1"
+    }
+    tools {
+        jdk 'java'
+        maven 'maven'
+    }
+
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'master']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/deeeye2/DevOpsClassCodes.git',
+                        credentialsId: ''
+                    ]]
+                ])
+            }
+        }
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/deeeye2/DevOpsClassCodes.git'
+            }
+        }
+        stage('Compile') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Metric Check') {
+            steps {
+                sh 'mvn clean verify jacoco:report'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        stage('Send Build Artifacts Over SSH') {
+            steps {
+                sshPublisher(publishers: [
+                    sshPublisherDesc(
+                        configName: 'dockerhost',  // Name of the SSH configuration in Jenkins
+                        transfers: [
+                            sshTransfer(
+                                sourceFiles: 'target/addressbook.war',
+                                remoteDirectory: '//opt//docker',  // Corrected remote directory
+                                removePrefix: 'target',
+                                execCommand: 'echo "Deployment Complete"'
+                            )
+                        ],
+                        usePromotionTimestamp: false,
+                        useWorkspaceInPromotion: false,
+                        verbose: true
+                    )
+                ])
+            }
+        }
+    }
+    post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+            jacoco execPattern: 'target/jacoco.exec', classPattern: 'target/classes', sourcePattern: 'src/main/java', exclusionPattern: '**/Test*.class'
+            cleanWs()
+        }
+    }
+}
